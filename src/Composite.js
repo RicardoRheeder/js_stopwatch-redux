@@ -6,11 +6,15 @@ import {
   Redirect,
   withRouter,
 } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import configureStore from './store/configureStore';
+import { Provider } from 'react-redux';
 
 // Layout
 import Header from './components/layout/Header';
 import AuthButton from './components/layout/AuthButton';
 // Components
+import StuffList from './components/StuffList';
 import Stopwatch from './components/Stopwatch';
 import Countdown from './components/Countdown';
 import Clock from './components/Clock';
@@ -19,6 +23,8 @@ import LoginPage from './components/pages/LoginPage';
 import Home from './components/pages/Home';
 import About from './components/pages/About';
 import NotFound from './components/pages/NotFound';
+
+const store = configureStore();
 
 /**
  * Serves as the main router for the application
@@ -53,26 +59,30 @@ export default class Composite extends Component {
     const WithRouterButton = withRouter(AuthButton), { isLoginShown, isAuthenticated } = this.state;
 
     return (
-      <Router>
-        <div className="App">
-          <div className="container" >
-            {/* Essentially, WithRouterButton is AuthButton, but with the above mentioned task */}
-            <WithRouterButton isLoginShown={isLoginShown} isAuthenticated={isAuthenticated} setAuthentication={this.setAuthentication} />
-            <Header />
-            <Switch>
-              <Route path="/" exact component={Home} />
-              {/* LoginPage takes all props and is given the two states */}
-              <Route path="/login" render={(props) => <LoginPage {...props} setLoginShown={this.setLoginShown} setAuthentication={this.setAuthentication} />} />
-              <PrivateRoute isAuthenticated={isAuthenticated} path="/stopwatch" component={Stopwatch} />
-              <PrivateRoute isAuthenticated={isAuthenticated} path="/countdown" component={Countdown} />
-              <PrivateRoute isAuthenticated={isAuthenticated} path="/clock" component={Clock} />
-              <Route path="/about" component={About} />
-              {/** The 404 not found page */}
-              <Route path="*" component={NotFound} />
-            </Switch>
+      <Provider store={store}>
+        <Router>
+          <div className="App">
+            <StuffList/>
+            <div className="container" >
+              {/* Essentially, WithRouterButton is AuthButton, but with the above mentioned task */}
+              <WithRouterButton isLoginShown={isLoginShown} isAuthenticated={isAuthenticated} setAuthentication={this.setAuthentication} />
+              <Header />
+              <Switch>
+                <Route path="/" exact component={Home} />
+                {/* LoginPage takes all props and is given the two states */}
+                <Route path="/login" render={(props) => <LoginPage {...props} setLoginShown={this.setLoginShown} setAuthentication={this.setAuthentication} />} />
+                <PrivateRoute isAuthenticated={isAuthenticated} path="/stopwatch" component={Stopwatch} />
+                <PrivateRoute isAuthenticated={isAuthenticated} path="/countdown" component={Countdown} />
+                <PrivateRoute isAuthenticated={isAuthenticated} path="/clock" component={Clock} />
+                <Route path="/about" component={About} />
+                {/** The 404 not found page */}
+                <Route path="*" component={NotFound} />
+              </Switch>
+            </div>
           </div>
-        </div>
-      </Router>
+        </Router>
+      </Provider>
+     
     );
   }
 }
