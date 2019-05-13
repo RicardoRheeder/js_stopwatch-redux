@@ -1,7 +1,7 @@
 {
-    "name": "JS_Stopwatch",
+    "name": "js_stopwatch-redux",
     "version": "0.0.1",
-    "description": "A much simpler boilerplate than create-react-app",
+    "description": "The stopwatch app implemented using Redux.",
     "main": "src/app.js",
     "scripts": {
         "start": "webpack-dev-server --config ./build-config/webpack.config.js --watch-poll",
@@ -9,7 +9,7 @@
         "deploy": "npm run build && npm run deploy-gh",
         "deploy-gh": "gh-pages -d build"
     },
-    "author": "kiranbandi",
+    "author": "ricardorheeder",
     "license": "MIT",
     "dependencies": {
         "axios": "^0.18.0",
