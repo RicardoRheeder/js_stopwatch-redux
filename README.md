@@ -1,2 +1,2 @@
-# js_stopwatch-redux
-The stopwatch app reworked using Redux.
+# STOPWATCH - REDUX
+A simple stopwatch created using React and Redux.
