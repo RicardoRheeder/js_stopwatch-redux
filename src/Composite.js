@@ -6,9 +6,9 @@ import {
   Redirect,
   withRouter,
 } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import configureStore from './store/configureStore';
-import { Provider } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { Provider, connect } from 'react-redux';
+import { updateTime } from './actions/index';
 
 // Layout
 import Header from './components/layout/Header';
@@ -24,13 +24,11 @@ import Home from './components/pages/Home';
 import About from './components/pages/About';
 import NotFound from './components/pages/NotFound';
 
-const store = configureStore();
-
 /**
  * Serves as the main router for the application
  * Controls routes and parameters passed
  */
-export default class Composite extends Component {
+class Composite extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -54,35 +52,36 @@ export default class Composite extends Component {
     this.setState({ isLoginShown });
   }
 
+  componentDidMount() {
+    setInterval(this.props.updateTime, 1000);
+  }
+
   render() {
     // Used to ensure that the AuthButton is able to be active on any page.
     const WithRouterButton = withRouter(AuthButton), { isLoginShown, isAuthenticated } = this.state;
 
     return (
-      <Provider store={store}>
-        <Router>
-          <div className="App">
-            <StuffList/>
-            <div className="container" >
-              {/* Essentially, WithRouterButton is AuthButton, but with the above mentioned task */}
-              <WithRouterButton isLoginShown={isLoginShown} isAuthenticated={isAuthenticated} setAuthentication={this.setAuthentication} />
-              <Header />
-              <Switch>
-                <Route path="/" exact component={Home} />
-                {/* LoginPage takes all props and is given the two states */}
-                <Route path="/login" render={(props) => <LoginPage {...props} setLoginShown={this.setLoginShown} setAuthentication={this.setAuthentication} />} />
-                <PrivateRoute isAuthenticated={isAuthenticated} path="/stopwatch" component={Stopwatch} />
-                <PrivateRoute isAuthenticated={isAuthenticated} path="/countdown" component={Countdown} />
-                <PrivateRoute isAuthenticated={isAuthenticated} path="/clock" component={Clock} />
-                <Route path="/about" component={About} />
-                {/** The 404 not found page */}
-                <Route path="*" component={NotFound} />
-              </Switch>
-            </div>
+      <Router>
+        <div className="App">
+          <StuffList/>
+          <div className="container" >
+            {/* Essentially, WithRouterButton is AuthButton, but with the above mentioned task */}
+            <WithRouterButton isLoginShown={isLoginShown} isAuthenticated={isAuthenticated} setAuthentication={this.setAuthentication} />
+            <Header />
+            <Switch>
+              <Route path="/" exact component={Home} />
+              {/* LoginPage takes all props and is given the two states */}
+              <Route path="/login" render={(props) => <LoginPage {...props} setLoginShown={this.setLoginShown} setAuthentication={this.setAuthentication} />} />
+              <PrivateRoute isAuthenticated={isAuthenticated} path="/stopwatch" component={Stopwatch} />
+              <PrivateRoute isAuthenticated={isAuthenticated} path="/countdown" component={Countdown} />
+              <PrivateRoute isAuthenticated={isAuthenticated} path="/clock" component={Clock} />
+              <Route path="/about" component={About} />
+              {/** The 404 not found page */}
+              <Route path="*" component={NotFound} />
+            </Switch>
           </div>
-        </Router>
-      </Provider>
-     
+        </div>
+      </Router>
     );
   }
 }
@@ -109,3 +108,10 @@ function PrivateRoute({ component: Component, isAuthenticated, ...rest }) {
   );
 }
 
+function mapDispatchToProps(dispatch) {
+  return {
+    updateTime: bindActionCreators(updateTime, dispatch)
+  };
+}
+
+export default connect(null,mapDispatchToProps)(Composite)

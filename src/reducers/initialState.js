@@ -1,3 +1,8 @@
 export default {
-    stuff: []
-  };
+  stuff: [],
+  clockStore: {
+    currentTime: new Date(),
+  },
+
+};
+

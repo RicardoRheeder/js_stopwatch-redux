@@ -53,7 +53,7 @@
     position: relative;
     /* border: solid yellow; */
     width: 100vw;
-    height: max-content;
+    height: 50%;
     text-align: center;
     top: 20%;
   }

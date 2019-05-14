@@ -27,3 +27,7 @@ export function fetchStuff() {
             });
     };
 }
+
+export const updateTime = updatedTime => ({
+    type: allActions.UPDATE_TIME
+  })

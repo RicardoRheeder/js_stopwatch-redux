@@ -1,48 +1,30 @@
 import React, { Component } from 'react';
-import CountdownText from './TimerText';
+// import CountdownText from './TimerText';
+import {connect} from 'react-redux';
+// import {bindActionCreators} from 'redux';
+// import * as stuffActions from '../actions/stuffActions';
+// import PropTypes from 'prop-types';
 import '../index.css';
+import moment from 'moment';
+
 
 /**
  * Serves as a component to display the current local time
  */
-export default class Clock extends Component {
-    constructor(props){
-        super(props);
-        this.state = {milisec:0, seconds:0, minutes:0, curTime:new Date(), intervalRef:null};
-        this.updateClock= this.updateClock.bind(this);
-        this.curTime = new Date();
-    }
-
-    // Starts the interval and assigns it to a reference to be able to clear it
-  componentDidMount() {
-    this.setState({ intervalRef: setInterval(() => this.updateClock(), 10) })
-  }
-
-  // Stops the interval and clears the reference - used to stop memory leaks
-  componentWillUnmount() {
-    clearInterval(this.state.intervalRef);
-    this.setState({ intervalRef: null })
-  }
-
-  // Serves as the update method for the local time. 
-  // Sets the seconds, minutes, etc
-  updateClock(){
-    this.setState({milisec: this.state.curTime.getMilliseconds(), seconds: this.state.curTime.getSeconds(), minutes: this.state.curTime.getMinutes()});
-    this.setState({curTime: new Date()})
-  }
-
-  render() {
-    return (
-      <div className="clockComponent">
-        <div >
-          <CountdownText  
-            key={'mykey-'+0} 
-            minutes={this.state.minutes} 
-            seconds={this.state.seconds} 
-            milisec={this.state.milisec}
-          />
-        </div>
-      </div>
-    );
-  }
+const Clock = function({currentTime}) {
+  debugger;
+  return(
+    <div className="clockComponent">
+      <span className="stopwatch">
+      {moment(currentTime).format('h:mm:ss a') }
+    </span>
+  </div>
+  )
+  
 }
+
+
+// );
+
+const mapStateToProps = state => ({ currentTime: state.clockStore.currentTime })
+export default connect(mapStateToProps)(Clock)

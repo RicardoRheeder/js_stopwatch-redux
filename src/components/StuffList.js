@@ -1,6 +1,6 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import * as stuffActions from '../actions/stuffActions';
+import * as actions from '../actions/index';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -9,7 +9,7 @@ import React from 'react';
 
 class stuffList extends React.Component {
     componentWillMount() {
-        this.props.stuffActions.fetchStuff();
+        this.props.actions.fetchStuff();
     }
 
     renderData(item) {
@@ -40,7 +40,7 @@ class stuffList extends React.Component {
 }
 
 stuffList.propTypes = {
-    stuffActions: PropTypes.object,
+    actions: PropTypes.object,
     stuff: PropTypes.array
 };
 
@@ -52,7 +52,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-       stuffActions: bindActionCreators(stuffActions, dispatch)
+        actions: bindActionCreators(actions, dispatch)
     };
 }
 
