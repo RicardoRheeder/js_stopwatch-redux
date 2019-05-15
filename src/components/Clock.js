@@ -1,30 +1,28 @@
-import React, { Component } from 'react';
-// import CountdownText from './TimerText';
-import {connect} from 'react-redux';
-// import {bindActionCreators} from 'redux';
-// import * as stuffActions from '../actions/stuffActions';
-// import PropTypes from 'prop-types';
-import '../index.css';
-import moment from 'moment';
+import React, { Component } from "react";
+import moment from "moment";
+import "../index.css";
 
+class Clock extends Component {
+  componentDidMount() {
+    this.props.initializeTime();
+    this.interval = setInterval(this.props.updateTime, 1000);
+  }
 
-/**
- * Serves as a component to display the current local time
- */
-const Clock = function({currentTime}) {
-  debugger;
-  return(
-    <div className="clockComponent">
-      <span className="stopwatch">
-      {moment(currentTime).format('h:mm:ss a') }
-    </span>
-  </div>
-  )
-  
+  componentWillUnmount() {
+    clearInterval(this.interval);
+  }
+
+  render() {
+    const { currentTime } = this.props;
+
+    return (
+      <div className="clockComponent">
+        <span className="stopwatch">
+          {moment(currentTime).format("hh:mm:ss A")}
+        </span>
+      </div>
+    );
+  }
 }
 
-
-// );
-
-const mapStateToProps = state => ({ currentTime: state.clockStore.currentTime })
-export default connect(mapStateToProps)(Clock)
+export default Clock;

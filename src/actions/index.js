@@ -1,33 +1,17 @@
-import * as allActions from './actionTypes';
+// import * as allActions from "./actionTypes";
 
-export function receiveStuff(data) {
-    return {type: allActions.RECEIVE_STUFF, stuff: data};
-}
+// -------------------------CLOCK----------------------------------
 
-export function fetchStuff() {
-    return (dispatch) => {
-        fetch('https://jsonplaceholder.typicode.com/users')
-            .then(response =>
-                response.json().then(data => ({
-                    data: data,
-                    status: response.status
-                }))
-            )
-            .then(response => {
-                if(response.status === 200){
-                    dispatch(receiveStuff(response.data))
-                }else{
-                    var flash = {
-                        type: 'error',
-                        title: 'Error getting task list',
-                        content: 'There was an error getting the task list. Please try again.'
-                    }
-                    dispatch({type: "DISPLAY_FLASH", data: flash})
-                }
-            });
-    };
-}
+export const initializeTime = () => ({ type: "INITIALIZE_TIME" });
 
-export const updateTime = updatedTime => ({
-    type: allActions.UPDATE_TIME
-  })
+export const updateTime = () => ({ type: "UPDATE_TIME" });
+
+// -------------------------STOPWATCH----------------------------------
+
+export const startStopwatch = () => ({ type: "START_STOPWATCH" });
+
+export const incrementTime = () => ({ type: "INCREMENT_TIME" });
+
+export const stopStopwatch = () => ({ type: "STOP_STOPWATCH" });
+
+export const resetStopwatch = () => ({ type: "RESET_STOPWATCH" });

@@ -1,28 +1,25 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
   HashRouter as Router,
   Route,
   Switch,
   Redirect,
-  withRouter,
-} from 'react-router-dom';
-import { bindActionCreators } from 'redux';
-import { Provider, connect } from 'react-redux';
-import { updateTime } from './actions/index';
+  withRouter
+} from "react-router-dom";
 
 // Layout
-import Header from './components/layout/Header';
-import AuthButton from './components/layout/AuthButton';
+import Header from "./components/layout/Header";
+import AuthButton from "./components/layout/AuthButton";
 // Components
-import StuffList from './components/StuffList';
-import Stopwatch from './components/Stopwatch';
-import Countdown from './components/Countdown';
-import Clock from './components/Clock';
+import Stopwatch from "./components/Stopwatch";
+import Countdown from "./components/Countdown";
+import Clock from "./bindings/clockBinding";
+// import Clock from "./components/Clock";
 // Pages
-import LoginPage from './components/pages/LoginPage';
-import Home from './components/pages/Home';
-import About from './components/pages/About';
-import NotFound from './components/pages/NotFound';
+import LoginPage from "./components/pages/LoginPage";
+import Home from "./components/pages/Home";
+import About from "./components/pages/About";
+import NotFound from "./components/pages/NotFound";
 
 /**
  * Serves as the main router for the application
@@ -33,9 +30,9 @@ class Composite extends Component {
     super(props);
     this.state = {
       isAuthenticated: false, // Checks if the user is currently logged in
-      isLoginShown: false, // Used to toggle the 'Log in' button being displayed
+      isLoginShown: false // Used to toggle the 'Log in' button being displayed
       // Did not want the 'Log in' button to be displayed on the 'Log in' page
-    }
+    };
 
     // Passing the 'this' reference to the two functions
     this.setAuthentication = this.setAuthentication.bind(this);
@@ -52,29 +49,50 @@ class Composite extends Component {
     this.setState({ isLoginShown });
   }
 
-  componentDidMount() {
-    setInterval(this.props.updateTime, 1000);
-  }
-
   render() {
     // Used to ensure that the AuthButton is able to be active on any page.
-    const WithRouterButton = withRouter(AuthButton), { isLoginShown, isAuthenticated } = this.state;
+    const WithRouterButton = withRouter(AuthButton),
+      { isLoginShown, isAuthenticated } = this.state;
 
     return (
       <Router>
         <div className="App">
-          <StuffList/>
-          <div className="container" >
+          <div className="container">
             {/* Essentially, WithRouterButton is AuthButton, but with the above mentioned task */}
-            <WithRouterButton isLoginShown={isLoginShown} isAuthenticated={isAuthenticated} setAuthentication={this.setAuthentication} />
+            <WithRouterButton
+              isLoginShown={isLoginShown}
+              isAuthenticated={isAuthenticated}
+              setAuthentication={this.setAuthentication}
+            />
             <Header />
             <Switch>
               <Route path="/" exact component={Home} />
               {/* LoginPage takes all props and is given the two states */}
-              <Route path="/login" render={(props) => <LoginPage {...props} setLoginShown={this.setLoginShown} setAuthentication={this.setAuthentication} />} />
-              <PrivateRoute isAuthenticated={isAuthenticated} path="/stopwatch" component={Stopwatch} />
-              <PrivateRoute isAuthenticated={isAuthenticated} path="/countdown" component={Countdown} />
-              <PrivateRoute isAuthenticated={isAuthenticated} path="/clock" component={Clock} />
+              <Route
+                path="/login"
+                render={props => (
+                  <LoginPage
+                    {...props}
+                    setLoginShown={this.setLoginShown}
+                    setAuthentication={this.setAuthentication}
+                  />
+                )}
+              />
+              <PrivateRoute
+                isAuthenticated={isAuthenticated}
+                path="/stopwatch"
+                component={Stopwatch}
+              />
+              <PrivateRoute
+                isAuthenticated={isAuthenticated}
+                path="/countdown"
+                component={Countdown}
+              />
+              <PrivateRoute
+                isAuthenticated={isAuthenticated}
+                path="/clock"
+                component={Clock}
+              />
               <Route path="/about" component={About} />
               {/** The 404 not found page */}
               <Route path="*" component={NotFound} />
@@ -88,7 +106,6 @@ class Composite extends Component {
 
 // Used to check for authentication of user before allowing then to redirect to private pages
 function PrivateRoute({ component: Component, isAuthenticated, ...rest }) {
-
   return (
     <Route
       {...rest}
@@ -96,22 +113,15 @@ function PrivateRoute({ component: Component, isAuthenticated, ...rest }) {
         isAuthenticated ? ( //Checks for authentication
           <Component {...props} />
         ) : (
-            <Redirect
-              to={{
-                pathname: "/login", // Else: redirects user to the login screen
-                state: { from: props.location } // Keeps track of the previous page the user was from
-              }}
-            />
-          )
+          <Redirect
+            to={{
+              pathname: "/login", // Else: redirects user to the login screen
+              state: { from: props.location } // Keeps track of the previous page the user was from
+            }}
+          />
+        )
       }
     />
   );
 }
-
-function mapDispatchToProps(dispatch) {
-  return {
-    updateTime: bindActionCreators(updateTime, dispatch)
-  };
-}
-
-export default connect(null,mapDispatchToProps)(Composite)
+export default Composite;

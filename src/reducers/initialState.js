@@ -1,8 +1,5 @@
+// var initialStopwatchState = 0;
+
 export default {
-  stuff: [],
-  clockStore: {
-    currentTime: new Date(),
-  },
-
+  currentTime: new Date()
 };
-
