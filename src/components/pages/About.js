@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 /**
  * Serves as the about page to provide any additional information
@@ -6,12 +6,13 @@ import React from 'react'
 export default function About() {
   return (
     <React.Fragment>
-      <h1>
-          Todo
-      </h1>
+      <h1>Todo</h1>
       <ul>
-        <li>Try keep timer's times.</li>
+        <li>
+          Try keep stopwatch going when switching to different components.
+        </li>
+        <li>Add countdown timer to the project using redux.</li>
       </ul>
     </React.Fragment>
-  )
+  );
 }

@@ -11,8 +11,10 @@ import {
 import Header from "./components/layout/Header";
 import AuthButton from "./components/layout/AuthButton";
 // Components
-import Stopwatch from "./components/Stopwatch";
-import Countdown from "./components/Countdown";
+import Stopwatch from "./bindings/stopwatchBinding";
+// import Stopwatch from "./components/Stopwatch";
+import Countdown from "./bindings/countdownBinding";
+// import Countdown from "./components/Countdown";
 import Clock from "./bindings/clockBinding";
 // import Clock from "./components/Clock";
 // Pages
