@@ -14,7 +14,7 @@ class Stopwatch extends Component {
 
   startStopwatch() {
     this.props.startStopwatch();
-    this.stopwatch = setInterval(this.props.incrementStopwatch, 1);
+    this.stopwatch = setInterval(this.props.incrementStopwatch, 25);
   }
 
   stopStopwatch() {

@@ -14,7 +14,7 @@ class Countdown extends Component {
 
   startCountdown() {
     this.props.startCountdown();
-    this.countdown = setInterval(this.props.decrementCountdown, 1);
+    this.countdown = setInterval(this.props.decrementCountdown, 25);
   }
 
   stopCountdown() {

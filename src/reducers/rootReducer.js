@@ -17,7 +17,7 @@ const clockApp = (state = initialState, action) => {
     case "INCREMENT_STOPWATCH":
       return Object.assign({}, state, {
         ...state,
-        sTime: moment(state.sTime).add(4, "millisecond")
+        sTime: moment(state.sTime).add(25, "millisecond")
       });
     case "STOP_STOPWATCH":
       return Object.assign({}, state, { ...state, sState: "STOPPED" });
@@ -34,7 +34,7 @@ const clockApp = (state = initialState, action) => {
     case "DECREMENT_COUNTDOWN":
       return Object.assign({}, state, {
         ...state,
-        cTime: moment(state.cTime).subtract(4, "millisecond")
+        cTime: moment(state.cTime).subtract(25, "millisecond")
       });
     case "STOP_COUNTDOWN":
       return Object.assign({}, state, { ...state, sState: "STOPPED" });

@@ -10,7 +10,7 @@ function resetStopwatch() {
 
 function resetCountdown() {
   var initialCountdownState = new Date();
-  initialCountdownState.setHours(1);
+  initialCountdownState.setHours(12);
   initialCountdownState.setMinutes(0);
   initialCountdownState.setSeconds(0);
   initialCountdownState.setMilliseconds(0);
